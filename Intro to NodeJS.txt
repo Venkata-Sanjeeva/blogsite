@@ -1,0 +1,254 @@
+1. why use nodeJs
+
+    -> no need to learn an extra language for server  
+    -> can share code between front and back end
+    -> Node.js has a massive community behind it
+    -> huge amount of third party packages and tools to help
+
+2. What you'll learn
+
+    -> How to install Node & use it to run javascript
+    -> how to read & write files on your computer
+    -> how to create a server using Node.js to create a website
+    -> how to create Express app / website
+    -> how to use MongoDB (a NoSQL database)
+    -> how to use template engines to easily create HTML views
+    -> put everything together to make a simple blog site
+
+3. Global Object
+
+    -> for browsers the global object is window and it will holds all the different type of properties in it.
+    -> but in node environment it also holds the global object, but in a different way. like we created global file and run it as in the terminal.
+    -> in node environment we can't access the browser like DOM. because of the global object in node environment is different.
+
+4. modules & require
+
+    -> require() will get the exact location of the file which we require to execute in the current file and it will be assigned to a variable and it helds an empty obj until the required file exports something.
+    -> "module.exports = "using this syntax we can export values to a different files. for more than one values use object {} to export multiple values
+
+5. File Systems
+
+    -> in node environment we have a fs which is used to perform CRUD operations on any files...
+    -> we use fs.readFile() to read the file and it has two parameters one is location of the file and the other one is a callback function.
+    -> this readFile() is an async function and it does not wait to complete the execution of the code, it fires the callback function whenever the readFile is completed its execution
+
+    -> we use fs.writeFile() to write in the respective file, and it takes three parameters one is file location and the second one is what we need to replace with and the third one is a callback function which is for async purpose. so that we can understand that the writeFile() has been executed.
+
+    -> we use fs.mkdir() to create folders in the respective location, and it takes two arguments one is location along with the folder name to be created and second one is callback function for the async purpose. also it prevents to not create duplicate folders when the folder is already created.
+
+    -> by using existsSync() we can easily check the folder if it is created or not by using fs.existsSync("location along with the folder name"), it returns boolean expression.
+
+    -> by using rmdir() we can delete the folder and it takes two arguments one is locaton of the folder and the second one is callback function
+
+    -> using unlink() we can delete any files, and it takes two arguments one is file location and second one is callback function
+
+-> STREAMS => it is like when we are watching an online video, it will load certain part of the video instead of waiting to load the entire video at a time.
+    -> which means it send whatever the data has been recieved from the server without waiting for the complete execution it will send continuously.
+    -> we can use this streams in while reading the data from server and while writing the data to the server
+    -> createReadStream() this creates the reading stream while we are reading the file. it has two parameters one is location and the other one is a object with the property of encoder: "utf8" it will translates the buffer data into readable format, then it listens to data with the help of "on" while we are reading data and it triggers the call back function
+    -> chunk is the some part of data it reads while we are streaming the whole big data from the large file, combining all the chunks will results in the original data
+    -> createWriteStream() it is also the same as createReadStream() and we can easily write whatever the data we have from the large file can be written into some other files
+    -> by using piping we can easily reduce the complex code by just using readStream.pipe(writeStream);
+
+6. Clients & Servers
+
+    -> IP addresses and Domains
+        GET - it uses HTTP as the barrier between the communication with the server and local Host
+            -> we always sends GET Request to the server to maintain a connection between the server and the local Host where we are using data from the server and it responses to you with any type of data like HTMLPage CSS JSON etc 
+
+    -> Creating a server in Node JSON
+        -> we can create a server by using http and we can do the all operation on the server which is created, to create a server using http we use http.createServer(); it has two methods which are request and response and also it fires a callback function whenever the request is made
+
+        -> now we need to listen for the server where it has been created or maded from.. using server.listen(); it has three parameters we need to pass one is port number and the other one is localhost which is an defualt value and the other one is a callback function
+
+        -> localhost 
+            -> it is like a domain name on the web (127.0.0.1) this address directly points to your own computer
+        -> port numbers
+            -> port numbers are like 'doors' into a computer. for example our server port number is 3000 and we need to access this, then give complete address like localhost:3000 
+    -> every time we made changes to the server file we need to re run the file again
+
+    -> response object
+        -> to send a response back to server using these 3 lines of code
+            -> response.setHeader("Content-Type", "text/plain");
+            -> response.write("hello");
+            -> response.end();
+        -> to send different type of files we just change the format in the Content-Type 
+    -> returning html pages
+        -> use filesystems to read html files and send the data as the response to the server
+
+    -> Status Codes
+        -> status codes describes the type of response sent to the browser
+            - 200 => OK
+            - 301 => Resource moved
+            - 404 => File not found
+            - 500 => Internal server error
+        -> Ex:- res.statusCode = 404;
+    -> Redirect
+        -> Using redirect method we can change the navigation of the client in the servere easily, with the help of res.setHeader("Location", "/about");
+
+    -> Nodemon, it is used to enhance our server. which implies always we need to restart the server manually whenever we made changes in the file so it overcomes this problem, it automatically restarts the server whenever it tracks any changes in the file
+    
+    -> Package.json file => npm init this command will create a package.json file. while creating this file in the terminal you just type enter for every question you asked.
+    
+    -> lodash is a package where we use to prevent or secure some of our operations done in our server using its all different type of dependencies present in the package example _.once(), this method allows us to use anything insite of it only one time.
+
+7. Express App
+
+    -> main use of express is we can reduce the more codee occured in node while creating a server, so this express app will reduce it and it has many features that we can use
+
+    -> creating express app
+        -> after installing express we need to import it using require(); to use.
+        -> then create a app using express, now listen to the port address which is 3000 or 5000 etc using app.listen(3000);
+        -> now if we need to send a response back to the server based on the request method we recieved using app.get(); and it will take 2 arguments one is location and the other one is a callback function
+        -> if we need to send a response back to the server we use res.send(); instead of res.write() and res.end();
+        -> by using send() we don't need to use res.setHeader("Content-Type", "text/html"); this it sets the Content-Type automatically
+        -> it will also sets the type of the response that we send back to the server
+        -> sendFile() is used to send a html file as response to the server and iit has an other parameter called root object which is used to tell the file path to search for in the current directory using __dirname
+
+        -> redirect
+            -> in express we have built in objects to work with the response we need to make based on the requests we get. so we can easily use res.redirect() method to redirect to any page
+
+            -> to display 404 page
+                -> using use() method in express we can easily send the 404 page
+                -> the use method is like a defualt case in the switch condition 
+                -> javascript goes through all of the get requests and if found any match to the url we had written it immedietly sends a response and it doesn't look for next get methods even if there are some matches, because it sends response which is closely like to return type
+                -> and now if js deos not found any of the matches and it simply comes to use() method and sends the response back to the server
+                -> the use() will fire the callback function for every single request that server has made so remember the use() method will always been at last of the all other request methods
+
+8. View Engines
+
+    -> view engines are used to inject dynamic html in our web browsers and for that purpose we use EJS as a view engine in our project 
+    -> Embedded JavaScript Templates
+        -> firstly install ejs in your project by using the cmd npm install ejs
+        -> now config the settings to our app using app.set();
+        -> set() method is used to make settings to our application which is app and we are configuring the view engine to our app
+        -> whenever we config the view engine it looks into the view folder which we have created with that same name or if it is in diff name just config app settingd to app.set("views", "folderName")
+        -> using render built in method in express we will render ejs html templates easily by just typping single line which is res.render("index");
+        -> passing data into views
+            -> using ejs templates we can pass the data like this <% const name = "mario" %> and for display output use = in the first % after like this <%= name %>
+            -> remember it does not executing the program in a console it executes in the browser
+            -> passing the data from app.js is from the code where we are rendering the page inside of that pass an object and use the properties in the template, like we done in the index page for title
+    
+9. Middleware
+
+    -> Code which runs (on the server) between getting a request and sending a response
+    -> app.use(func) app.get("/", func) app.use(func) these are the Middlewares
+    -> use() method fires the callback function everytime when the request is made no matter it is get or post or put etc it just fires the callback function
+    -> examples
+        -> logger middleware to log details of every request 
+        -> authentication check middleware for protected routes
+        -> middleware to parse JSON data from requests
+        -> return 404 pages
+
+    -> next() it comes with the callback function arguments in the use() method and we call this next method after execution of all the prev code inside of use() method 
+
+    -> morgan middleware package is used to log something and we can serve css static files to u=our html pages
+
+    -> static files 
+        -> express secures all our files do not expose in the browser and we need to make them available to use at anywhere we need using this line app.use(express.static('public')); not only public we can name the folder as we want and the process is to define that folder has accessable outside and that's why in the header we just use /styles.css not ./public/styles.css because it has only access to use the public so that's why we written like that
+        
+
+10. MongoDB
+
+    -> SQL (Structured Query Language)
+        -> Tables
+        -> Rows
+        -> Columns
+    -> NoSQL
+        -> Collections
+        -> Documents
+        -> MongoDB
+
+    -> Example
+        -> User Collection
+            => User Document
+            => User Document
+            => User Document
+        -> Blog Collection
+            => Blog Document
+            => Blog Document
+            => Blog Document
+        
+        -> Blog Document
+            =>  {
+                    "_id":ObjectId(12345), // auto generate unique id
+                    "title":"Opening Party",
+                    "snippet":"all about the...",
+                    "body":"blah blah blah..."
+                }
+
+    -> Mongoose
+        -> Mongoose is an ODM Library - Object Document Mapping Library
+        -> User Model => User.get(), User.findById()
+        -> Blog Model => Blog.deleteOne()
+
+        -> Schemas and modules
+            -> Schemas defines the structure of a type of data / Document => properties & Property types
+            -> User Schemas 
+                -> name (string), required
+                -> age (number)
+                -> bio (string), required
+
+            -> Blog Schema 
+                -> title(string), required
+                -> snippet(string), required
+                -> body(string), required 
+            
+            -> Models allow us to communicate with database Collections
+                -> blog schema => (get, save, delete, etc) => database blog Collection
+        -> using save() method of the model we can upload the data into database, also it is a async function so that use .then whenever it is uploaded show the result
+        -> using find() method of the model we are created using schema will gives you all the data which has been created
+        -> if you want only one data from the database use findById() method to get tat data
+        -> if you want to diplay the data from the time which is created latestly use find().sort({createdAt: -1}) 
+
+11. GET POST DELETE requests
+
+    -> request types
+        -> GET requests to get a Resource
+        -> POST requests to create new data (e.g a new blog)
+        -> DELETE requests to delete data (e.g delete a blog)
+        -> PUT requests to update data (e.g update a blog)
+
+    -> examples
+        -> localhost:3000/blogs => GET
+        -> localhost:3000/blogs/create => GET
+        -> localhost:3000/blogs => POST -> this is same as GET request but it has diff method so that it is diff from the GET
+        -> localhost:3000/blogs/:id => GET -> using this path we will get the data with having the id
+        -> localhost:3000/blogs/:id => DELETE -> using this path we will delete the data with having the id
+        -> localhost:3000/blogs/:id => PUT -> using this path we will update the data with having the id
+
+    -> POST Request
+        -> in the form make action = "/blogs" and method = "POST"
+            -> using this type of action we can able to get the requests from that type of url and we will get the request as post from that url
+            -> like this app.post("/blogs", (req, res) => {});
+            -> in that call back function we have an acess to the all input values which are converted into a object with the help of middleware which is app.use(express.urlencoded({ extended: true })); and we can assign the form values to our blog schema and we can save that to our database using save() method and remember this save method is an async function so use then() in that we will redirect to the all blogs and show the new blog which is created previously in the all blogs section
+
+        -> Route Parameters
+            -> the variable parts of the route may change the value
+                -> localhost:3000/blogs/:id
+                -> localhost:3000/blogs/12345
+                -> localhost:3000/blogs/50
+                -> localhost:3000/blogs/hello
+
+    -> DELETE Request
+        -> this request has been made from the front end when the delete btn is clicked and it fetches the DELETE method to the server and in the server we will listening to particular methods and urls to perform some operations by doing app.delete("/blogs:id", callback func) 
+        -> inside of the call back function we will get the id and by using the Blog.findByIdAndDelete() method we will delete the data
+        -> after deleting the data we need to send a response which is an object having redirecting url instead of redirecting to some other pages, because the method which is sended is not from the server it is from the front end part which is fetch and it is a async func so we make next step to perform which is redirecting operation
+        -> at front end we convert the json format into javascript object and then we use the data inside of it to redirect to further page by using window.location.href = data.redirect
+
+12. Express Routers and MVC (Model View Controller)
+
+    -> Express Routers
+        -> using express routers make us to use the code more easily which reduces the more writting content in one file into splitting of other files
+        -> first step of using express routers we need to separate the usage of same routers again and again so we separate the routers which has the same routes into a file and it is like a mini app
+        -> we create a mini app using router = express.Router() then we use the router instead of app
+        -> and atlast we need to export the router to use outside of the file, like we use in the app.js
+        -> at app.js after importing router, implement them using app.use("/blogs", router)
+    
+    -> MVC Basics
+
+        -> Stands for Model, View, Controller 
+        -> MVC is a way of structuring our code & files
+        -> keeps code more modulator, reusable & easier to read
+        -> this is used for reduce the code complexity in the same file, like we are moving all the function we are used in the blog routing into a diff file and it holds all the functions which are separated with naming conventioned functions
+        // this is not a mandatory to make our code, so that's why I didn't done the MVC in this project
